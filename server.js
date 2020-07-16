@@ -24,7 +24,7 @@ connection.connect(function(err) {
     start();
   });
   
-  // function which prompts the user for what action they should take
+  // This Function will run the inquirer npm package to prompt the user as to what they wish to do
   function start() {
     inquirer
       .prompt({
@@ -34,7 +34,7 @@ connection.connect(function(err) {
         choices: ["Add departments", "Add roles", "Add employees", "View departments", "View roles", "View employees", "Update employee roles", "Done"]
       })
       .then(function(answer) {
-        // based on their answer, either call the bid or the post functions
+        // Based on the answer to the initial prompt, a new function will be called on to run
         if (answer.todo === "Add departments") {
           addDepartments();
         }
@@ -60,7 +60,7 @@ connection.connect(function(err) {
         }
       });
   }
-
+// Should the user select to add a Department, the addDepartment function will run promptin the user for more information
   function addDepartments() {
       inquirer
       .prompt([
@@ -76,7 +76,7 @@ connection.connect(function(err) {
           })
       })
   }
-
+// Should the user select to add a Role, the addRoles function will run promptin the user for more information
   function addRoles() {
       inquirer
       .prompt([
@@ -98,19 +98,56 @@ connection.connect(function(err) {
       ]).then(function(answer) {
           connection.query("INSERT INTO role SET ?", {title: answer.roleName, salary: answer.salary, department_id: answer.depID}, function(error, result) {
               console.log(result)
-            // connection.query("insert into role set ?", {salary: answer.salary}, function(err, data) {
-            //     console.log(data)
                 start();
           })
       })
   }
+// Should the user select to add an Employee, the addEmployees function will run promptin the user for more information
+  function addEmployees() {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            name: "emplFirst",
+            message: "What is the first name of the Employee you would like to add?"
+        },
+        {
+          type: "input",
+          name: "emplLast",
+          message: "What is the last name of the Employee you would like to add?"
+      },
+        {
+            type: "input",
+            name: "emplRID",
+            message: "Please enter the ID for this employee's Role."
+        },
+        {
+          type: "input",
+          name: "emplMID",
+          message: "Please enter the ID for this employee's manager"
+        }
+    ]).then(function(answer) {
+        connection.query("INSERT INTO employee SET ?", {first_name: answer.emplFirst, last_name: answer.emplLast, role_id: answer.emplRID, manager_id: answer.emplMID}, function(error, result) {
+            console.log(result)
+              start();
+        })
+    })
+}
 
   function viewDepartments() {
-      connection.query("select name from department", function(error, result) {
+      connection.query("select * from department", function(error, result) {
           console.table(result)
           start();
       }) 
   }
+
+  function viewRoles() {
+    connection.query("select * from role", function(error, result) {
+        console.table(result)
+        start();
+    }) 
+}
+
 
   function updateUER() {
       inquirer
