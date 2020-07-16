@@ -67,12 +67,40 @@ connection.connect(function(err) {
           {
               type: "input",
               name: "depName",
-              message: "What is the name of the Department?"
+              message: "What is the name of the Department you would like to add?"
           }
       ]).then(function(answer) {
           connection.query("insert into department set ?", {name: answer.depName}, function(error, result) {
             console.log(result)
             start();
+          })
+      })
+  }
+
+  function addRoles() {
+      inquirer
+      .prompt([
+          {
+              type: "input",
+              name: "roleName",
+              message: "What is the name of the Role you would like to add?"
+          },
+          {
+              type: "input",
+              name: "salary",
+              message: "What is the salary for this role?"
+          },
+          {
+            type: "input",
+            name: "depID",
+            message: "What is the ID of the Department that this Role belongs to?"
+          }
+      ]).then(function(answer) {
+          connection.query("INSERT INTO role SET ?", {title: answer.roleName, salary: answer.salary, department_id: answer.depID}, function(error, result) {
+              console.log(result)
+            // connection.query("insert into role set ?", {salary: answer.salary}, function(err, data) {
+            //     console.log(data)
+                start();
           })
       })
   }
