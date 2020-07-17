@@ -15,3 +15,6 @@ ISC
 ## Questions
 If you have any further questions about this application, feel free to reach out to me on my github page: https://github.com/Derekdespo
 or by email: derekdespo@icloud.com
+
+
+<img width="1440" alt="employee-track" src="https://user-images.githubusercontent.com/65831812/87746510-c0c3ea00-c7be-11ea-8550-c7500db594f9.png">
